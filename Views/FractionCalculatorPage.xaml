@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalculatorTask.Views.FractionCalculatorPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:CalculatorTask.ViewModels"
+    BackgroundColor="Black"
+    Title="מחשבון שברים מעורבים"
+    x:DataType="vm:FractionCalculatorViewModel">
+
+    <!-- Bind directly to a new VM instance -->
+    <ContentPage.BindingContext>
+        <vm:FractionCalculatorViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            <Label
+        Text="מחשבון שברים מעורבים"
+        FontSize="22"
+        TextColor="White"
+        HorizontalOptions="Center" />
+
+            <!-- שברים + פעולה אופקיים -->
+            <Grid ColumnDefinitions="Auto,Auto,Auto"
+            HorizontalOptions="Center"
+            ColumnSpacing="30">
+
+                <!-- שבר ראשון -->
+                <Grid RowDefinitions="Auto,1,Auto"
+              ColumnDefinitions="Auto"
+              Grid.Column="0">
+                    <Entry
+            x:Name="Num1Entry"
+            Text="{Binding Num1}"
+            Placeholder="מונה"
+            Visual="None"
+            Focused="Entry_Focused"
+            BackgroundColor="#1E1E1E"
+            TextColor="White"
+            PlaceholderColor="Gray"
+            Grid.Row="0"
+            WidthRequest="60"
+            HorizontalTextAlignment="Center" />
+                    <BoxView
+            Grid.Row="1"
+            Color="White"
+            HeightRequest="1"
+            HorizontalOptions="Fill" />
+                    <Entry
+            x:Name="Den1Entry"
+            Text="{Binding Den1}"
+            Placeholder="מכנה"
+            Visual="None"
+            Focused="Entry_Focused"
+            BackgroundColor="#1E1E1E"
+            TextColor="White"
+            PlaceholderColor="Gray"
+            Grid.Row="2"
+            WidthRequest="60"
+            HorizontalTextAlignment="Center" />
+                </Grid>
+
+                <!-- פעולה -->
+                <Picker
+          ItemsSource="{Binding Operations}"
+          SelectedItem="{Binding SelectedOperation}"
+          Title="בחר פעולה"
+          TextColor="White"
+          BackgroundColor="#2D2D2D"
+          Grid.Column="1"
+          WidthRequest="100"
+          HorizontalOptions="Center" />
+
+                <!-- שבר שני -->
+                <Grid RowDefinitions="Auto,1,Auto"
+              ColumnDefinitions="Auto"
+              Grid.Column="2">
+                    <Entry
+            x:Name="Num2Entry"
+            Text="{Binding Num2}"
+            Placeholder="מונה"
+            Visual="None"
+            Focused="Entry_Focused"
+            BackgroundColor="#1E1E1E"
+            TextColor="White"
+            PlaceholderColor="Gray"
+            Grid.Row="0"
+            WidthRequest="60"
+            HorizontalTextAlignment="Center" />
+                    <BoxView
+            Grid.Row="1"
+            Color="White"
+            HeightRequest="1"
+            HorizontalOptions="Fill" />
+                    <Entry
+            x:Name="Den2Entry"
+            Text="{Binding Den2}"
+            Placeholder="מכנה"
+            Visual="None"
+            Focused="Entry_Focused"
+            BackgroundColor="#1E1E1E"
+            TextColor="White"
+            PlaceholderColor="Gray"
+            Grid.Row="2"
+            WidthRequest="60"
+            HorizontalTextAlignment="Center" />
+                </Grid>
+            </Grid>
+
+            <!-- תוצאה -->
+            <Label
+        Text="תוצאה:"
+        FontAttributes="Bold"
+        TextColor="White"
+        HorizontalOptions="Center" />
+
+            <!-- אזור תוצאה / הודעה -->
+            <Grid ColumnDefinitions="Auto,Auto"
+            ColumnSpacing="10"
+            HorizontalOptions="Center">
+
+                <!-- שלם -->
+                <Label
+          x:Name="ResultWholeLabel"
+          Text="{Binding ResultWhole}"
+          FontSize="40"
+          TextColor="White"
+          VerticalOptions="Center"
+          HorizontalTextAlignment="Center"
+          IsVisible="{Binding IsResultVisible}" />
+
+                <!-- שבר -->
+                <Grid
+          RowDefinitions="Auto,1,Auto"
+          Grid.Column="1"
+          VerticalOptions="Center"
+          IsVisible="{Binding IsResultVisible}">
+                    <Label
+            Text="{Binding ResultNumerator}"
+            Grid.Row="0"
+            FontSize="24"
+            TextColor="White"
+            HorizontalTextAlignment="Center" />
+                    <BoxView
+            Grid.Row="1"
+            Color="White"
+            HeightRequest="1"
+            HorizontalOptions="Fill" />
+                    <Label
+            Text="{Binding ResultDenominator}"
+            Grid.Row="2"
+            FontSize="24"
+            TextColor="White"
+            HorizontalTextAlignment="Center" />
+                </Grid>
+
+                <!-- הודעת שגיאה -->
+                <Label
+          Grid.ColumnSpan="2"
+          Text="{Binding ResultError}"
+          FontSize="18"
+          TextColor="OrangeRed"
+          HorizontalOptions="Center"
+          HorizontalTextAlignment="Center"
+          IsVisible="{Binding IsErrorVisible}" />
+            </Grid>
+
+            <!-- כפתורים -->
+            <HorizontalStackLayout
+        HorizontalOptions="Center"
+        Spacing="20">
+                <Button
+          Text="C"
+          Command="{Binding ClearCommand}"
+          BackgroundColor="#D9534F"
+          TextColor="White"
+          WidthRequest="130"
+          HeightRequest="65"
+          CornerRadius="32" />
+                <Button
+          Text="חשב"
+          Command="{Binding CalculateCommand}"
+          BackgroundColor="#F0AD4E"
+          TextColor="White"
+          WidthRequest="130"
+          HeightRequest="65"
+          CornerRadius="32"
+          HorizontalOptions="Center"
+          VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- לוח מקשים -->
+            <Grid
+        RowSpacing="10"
+        ColumnSpacing="10"
+        Padding="10"
+        HorizontalOptions="Center"
+        ColumnDefinitions="Auto,Auto,Auto"
+        RowDefinitions="Auto,Auto,Auto,Auto">
+
+                <!-- digits 1–9 -->
+                <Button Text="1" Command="{Binding DigitCommand}" CommandParameter="1" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <Button Text="2" Command="{Binding DigitCommand}" CommandParameter="2" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Column="1" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <Button Text="3" Command="{Binding DigitCommand}" CommandParameter="3" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Column="2" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <Button Text="4" Command="{Binding DigitCommand}" CommandParameter="4" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Row="1" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <Button Text="5" Command="{Binding DigitCommand}" CommandParameter="5" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Row="1" Grid.Column="1" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <Button Text="6" Command="{Binding DigitCommand}" CommandParameter="6" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Row="1" Grid.Column="2" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <Button Text="7" Command="{Binding DigitCommand}" CommandParameter="7" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Row="2" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <Button Text="8" Command="{Binding DigitCommand}" CommandParameter="8" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Row="2" Grid.Column="1" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <Button Text="9" Command="{Binding DigitCommand}" CommandParameter="9" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Row="2" Grid.Column="2" WidthRequest="91" HeightRequest="91" CornerRadius="45"/>
+                <!-- אפס מתפרש על כל השורה התחתונה -->
+                <Button Text="0" Command="{Binding DigitCommand}" CommandParameter="0" FontSize="22"
+                BackgroundColor="#2D2D2D" TextColor="White" Grid.Row="3" Grid.ColumnSpan="3" WidthRequest="286" HeightRequest="91" CornerRadius="45"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CalculatorTask.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:CalculatorTask.Views"
+    Title="CalculatorTask">
+
+    <!-- דף ברירת מחדל -->
+    <ShellContent
+        Title="מחשבון שברים"
+        ContentTemplate="{DataTemplate views:FractionCalculatorPage}"
+        Route="FractionCalculatorPage" />
+
+    <!-- דף בקוד מאחורי -->
+    <ShellContent
+        Title="קוד בלבד"
+        ContentTemplate="{DataTemplate views:SamePageWithCodeBehind}"
+        Route="SamePageWithCodeBehind" />
+</Shell>
